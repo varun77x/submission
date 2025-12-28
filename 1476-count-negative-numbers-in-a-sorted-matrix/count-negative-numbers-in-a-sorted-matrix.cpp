@@ -2,9 +2,11 @@ class Solution {
 public:
     int countNegatives(vector<vector<int>>& grid) {
         int answer = 0;
+        int mini = grid[0].size() - 1;
+
         for(auto nums:grid){
             int left = 0;
-            int right= nums.size() - 1;
+            int right= mini;
             int mid;
 
             while(left <= right){
@@ -15,6 +17,9 @@ public:
                 else{
                     if(mid == 0 or nums[mid-1] >= 0){
                         answer += (nums.size() - mid); // because all the elements will be negative then starting from index 0 or i
+                        if(mini > mid){
+                            mini = mid;
+                        }
                         break;
                     }
                     else{
@@ -22,6 +27,7 @@ public:
                     }
                 }
             }
+
         }
         return answer;
     }
