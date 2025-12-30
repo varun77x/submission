@@ -1,34 +1,19 @@
 class Solution {
 public:
     int countNegatives(vector<vector<int>>& grid) {
-        int answer = 0;
-        int mini = grid[0].size() - 1;
+        int vertical = grid.size() -1 ;
+        int hz = 0;
+        int n = grid[0].size();
+        int ans = 0;
 
-        for(auto nums:grid){
-            int left = 0;
-            int right= mini;
-            int mid;
-
-            while(left <= right){
-                mid = (left + right) / 2;
-                if(nums[mid] >= 0){
-                    left = mid+1;
-                }
-                else{
-                    if(mid == 0 or nums[mid-1] >= 0){
-                        answer += (nums.size() - mid); // because all the elements will be negative then starting from index 0 or i
-                        if(mini > mid){
-                            mini = mid;
-                        }
-                        break;
-                    }
-                    else{
-                        right = mid - 1;
-                    }
-                }
+        while(hz < n and vertical >= 0){
+            while(hz < n and grid[vertical][hz] >= 0){
+                hz++;
+                cout<<hz<<endl;
             }
-
+            ans += (n-hz); // adding the count - counting from the end
+            vertical--;
         }
-        return answer;
+        return ans;
     }
 };
