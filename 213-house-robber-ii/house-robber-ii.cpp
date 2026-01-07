@@ -1,31 +1,29 @@
 class Solution {
 public:
 
-    int max_sum(vector<int>& nums,vector<int> dp,int l ,int r){
-         for(int i = l ; i <= r ; i++ ){
+    int max_sum(vector<int>& nums,int l ,int r){
+        int prev_by_one = 0, prev_by_two = 0, curr =0;
+        for(int i = l ; i <= r ; i++ ){
 
-            int skip = 0;
-            if(i - 1 >= 0){
-                skip = dp[i-1];
-            }
-            int take = nums[i];
-            if(i-2 >= 0){
-                take += dp[i-2];
-            }
-            dp[i] = max(skip,take);
-            
+            int skip = prev_by_one;
+            int take = nums[i] + prev_by_two;
+
+            curr = max(skip,take);
+
+            prev_by_two = prev_by_one;
+            prev_by_one = curr;
+  
         }
 
-        return dp[r];
+        return curr;
     }
     int rob(vector<int>& nums) {
         int n = nums.size();
-        vector<int> dp(n+1,0);
         if(n == 1){
             return nums[0];
         }
 
-        return max(max_sum(nums,dp,0,n-2), max_sum(nums,dp,1,n-1));
+        return max(max_sum(nums,0,n-2), max_sum(nums,1,n-1));
         
     }
 };
