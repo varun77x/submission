@@ -16,12 +16,9 @@ public:
                 temp = max(temp, value);
             }
             if ((right - left + 1) - temp > k) {
-                while ((right - left + 1) - temp > k and left < right) {
+                if ((right - left + 1) - temp > k and left < right) {
                     mp[s[left]]--;
                     left++;
-                    // for (auto& [key, value] : mp) {
-                    //     temp = max(temp, value);
-                    // }
                 }
             } else
                 maxi = max(maxi, right - left + 1);
