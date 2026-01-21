@@ -16,7 +16,7 @@ public:
                 temp = max(temp, value);
             }
             if ((right - left + 1) - temp > k) {
-                if ((right - left + 1) - temp > k and left < right) {
+                while ((right - left + 1) - temp > k and left < right) {
                     mp[s[left]]--;
                     left++;
                 }
