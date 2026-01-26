@@ -1,32 +1,30 @@
 class Solution {
 public:
-    // int count = 0;
-    unordered_map<int, int> mp;
-    int sol(int index, string s, int n) {
-        if (mp.count(index)) {
-            return mp[index];
-        }
-        if (index == n) {
-            return 1;
-        }
-        if (s[index] == '0') {
-            return 0;
-        }
-        string runner = "";
-        int total = 0;
-        for (int i = index; i < n; i++) {
-
-            runner = runner + s[i];
-            if (stoi(runner) > 26) {
-                break;
-            } else {
-                total = total + sol(i + 1, s, n);
-            }
-        }
-        return mp[index] = total;
-    }
     int numDecodings(string s) {
-        int count = sol(0, s, s.length());
-        return count;
+        int count = 0;
+        int n = s.length();
+        vector<int> dp(n, 0);
+        dp[s.length() - 1] = (s[n - 1] == '0') ? 0 : 1;
+        for (int i = n - 2; i >= 0; i--) {
+            string runner = "";
+            if (s[i] == '0') {
+                continue;
+            }
+            int temp_sum = 0;
+            for (int j = i; j < n; j++) {
+                runner = runner + s[j];
+                if (stoi(runner) > 26) {
+                    break;
+                } else {
+                    if (j == n - 1) {
+                        temp_sum += 1;
+                    } else {
+                        temp_sum += dp[j+1];
+                    }
+                }
+            }
+            dp[i] = temp_sum;
+        }
+        return dp[0];
     }
 };
