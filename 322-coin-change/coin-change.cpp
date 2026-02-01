@@ -1,32 +1,22 @@
 class Solution {
 public:
-    // memoization
-    unordered_map<int,int> mp;
-    int solve(int sum,int n,vector<int>& coins){
-        if(mp.count(sum)){
-            return mp[sum];
-        }
-        if(sum == 0){
-            return mp[sum] = 1;
-        }
-        else if(sum < 0){
-            return mp[sum] = INT_MAX;
-        }
-        int temp;
-        int curr_mini = INT_MAX;
-        for(int i = 0; i<n ; i++){
-            temp = solve(sum-coins[i],n,coins);
-            if(temp < curr_mini){
-                curr_mini = temp;
-            }
-        }
-        if(curr_mini == INT_MAX){
-            return mp[sum] = INT_MAX;
-        }
-        return mp[sum] = curr_mini + 1;
-    }
     int coinChange(vector<int>& coins, int amount) {
-        int temp = solve(amount,coins.size(),coins);
-        return (temp==INT_MAX?-1:temp-1);
+        int sum_index;
+        int n = coins.size();
+        vector<int> dp(amount+1,-1);
+        dp[0] = 0;
+
+        for(int dp_index = 1 ; dp_index <= amount ; dp_index++){
+            int minimum_sum = amount+1;
+            for(int c_index = 0 ; c_index < n ; c_index++){
+                sum_index = dp_index - coins[c_index];
+                if(sum_index < 0 or dp[sum_index] == amount + 1) continue;
+                if(minimum_sum > dp[sum_index]){
+                    minimum_sum = dp[sum_index]  + 1;
+                }
+            }
+            dp[dp_index] = minimum_sum;
+        }
+        return dp[amount]==amount+1?-1:dp[amount];
     }
 };
